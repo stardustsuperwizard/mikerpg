@@ -1,7 +1,5 @@
-# mikerpg
-This is an RPG game that I am designing in Godot it is an experiment to build out a game that I can play at home with friends. 
-
-The goals are as follows:
+# Starting Out
+This is an experiment to build out a game that I can play at home with friends. The goals are as follows:
 1. Build a single player game to start
 2. Add a multiplayer option with an admin (or Dm/GM) client, like Neverwinter Nights.
 3. Use as much of the godot editor as possible as the toolset for making stories.
