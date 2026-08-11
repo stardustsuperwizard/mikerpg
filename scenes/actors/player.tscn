@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=8 format=3]
 
-[ext_resource type="Script" path="res://scripts/actors/player.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/actors/actor.gd" id="1"]
 [ext_resource type="Script" path="res://addons/gloot/core/inventory.gd" id="2"]
 [ext_resource type="JSON" path="res://data/items/items.json" id="3"]
 [ext_resource type="Resource" path="res://data/characters/mike.tres" id="4"]
+[ext_resource type="Script" path="res://scripts/actors/controllers/player_controller.gd" id="5"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_player"]
 radius = 0.4
@@ -28,3 +29,6 @@ shape = SubResource("CapsuleShape3D_player")
 [node name="Inventory" type="Node" parent="."]
 script = ExtResource("2")
 protoset = ExtResource("3")
+
+[node name="Controller" type="Node" parent="."]
+script = ExtResource("5")
