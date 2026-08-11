@@ -1,24 +1,22 @@
-extends CharacterBody3D
+class_name Creature
+extends Actor
 
-@export var data: CreatureData
-
-var current_hp: int
+@export var color: Color = Color.WHITE
 
 @onready var mesh: MeshInstance3D = $MeshInstance3D
 
 func _ready() -> void:
+	super._ready()
 	add_to_group("creatures")
-	current_hp = data.max_hp
 	var material := StandardMaterial3D.new()
-	material.albedo_color = data.color
+	material.albedo_color = color
 	mesh.material_override = material
 
 func take_damage(amount: int) -> void:
-	current_hp -= amount
-	print("%s takes %d damage (%d/%d HP)" % [data.creature_name, amount, max(current_hp, 0), data.max_hp])
-	if current_hp <= 0:
-		die()
+	var remaining := character_sheet.current_hp - amount
+	print("%s takes %d damage (%d/%d HP)" % [character_sheet.character_name, amount, maxi(remaining, 0), character_sheet.max_hp])
+	super.take_damage(amount)
 
 func die() -> void:
-	print("%s dies." % data.creature_name)
-	queue_free()
+	print("%s dies." % character_sheet.character_name)
+	super.die()

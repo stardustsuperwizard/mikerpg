@@ -60,10 +60,10 @@ For instance, I don't want our player code eventually becoming something like:
 
 ```gdscript
 func attack():
-    var proficiency_bonus = 2
-    var strength_modifier = 3
-    var roll = randi_range(1, 20)
-    ...
+	var proficiency_bonus = 2
+	var strength_modifier = 3
+	var roll = randi_range(1, 20)
+	...
 ```
 
 Instead, conceptually, I'd like:

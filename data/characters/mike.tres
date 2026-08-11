@@ -3,18 +3,18 @@
 [ext_resource type="Script" path="res://scripts/rules/character_sheet.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/rules/ability_scores.gd" id="2"]
 
-[sub_resource type="Resource" id="AbilityScores_goblin"]
+[sub_resource type="Resource" id="AbilityScores_mike"]
 script = ExtResource("2")
-strength = 8
-dexterity = 14
-constitution = 10
+strength = 16
+dexterity = 12
+constitution = 14
 intelligence = 10
-wisdom = 8
-charisma = 8
+wisdom = 10
+charisma = 10
 
 [resource]
 script = ExtResource("1")
-character_name = "Goblin"
-ability_scores = SubResource("AbilityScores_goblin")
-max_hp = 7
-armor_class = 15
+character_name = "Mike"
+ability_scores = SubResource("AbilityScores_mike")
+max_hp = 12
+armor_class = 10

@@ -1,9 +1,11 @@
-extends CharacterBody3D
+class_name Player
+extends Actor
 
 const SPEED = 5.0
 const ATTACK_RANGE = 2.0
 
 func _ready() -> void:
+	super._ready()
 	add_to_group("player")
 
 func _physics_process(delta: float) -> void:
@@ -27,11 +29,14 @@ func _unhandled_input(event: InputEvent) -> void:
 		if target:
 			Combat.attack(self, target)
 
-func _find_nearest_creature() -> Node:
-	var nearest: Node = null
+func _find_nearest_creature() -> Actor:
+	var nearest: Actor = null
 	var nearest_dist := ATTACK_RANGE
-	for creature in get_tree().get_nodes_in_group("creatures"):
-		var dist: float = global_position.distance_to(creature.global_position)
+	for node in get_tree().get_nodes_in_group("creatures"):
+		var creature := node as Actor
+		if not creature:
+			continue
+		var dist := global_position.distance_to(creature.global_position)
 		if dist <= nearest_dist:
 			nearest = creature
 			nearest_dist = dist
