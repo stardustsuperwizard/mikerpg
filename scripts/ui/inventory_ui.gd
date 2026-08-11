@@ -4,7 +4,7 @@ extends CanvasLayer
 
 func _ready() -> void:
 	visible = false
-	var player := get_tree().get_first_node_in_group("player")
+	var player := get_tree().get_first_node_in_group("players")
 	if player:
 		ctrl_inventory.inventory = player.get_node("Inventory")
 

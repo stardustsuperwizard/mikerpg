@@ -6,7 +6,7 @@ const ATTACK_RANGE = 2.0
 var _attack_requested := false
 
 func _ready() -> void:
-	actor.add_to_group("player")
+	actor.add_to_group("players")
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("attack"):
