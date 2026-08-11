@@ -119,7 +119,7 @@ MikeRPG/
 │   └── quests/
 │
 └── addons/
-    └── [other people's excellent work]
+	└── [other people's excellent work]
 ```
 
 Notice that last directory. **`addons/` is going to become one of our favorite directories.**

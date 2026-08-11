@@ -1,6 +1,7 @@
 extends CharacterBody3D
 
 const SPEED = 5.0
+const ATTACK_RANGE = 2.0
 
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
@@ -16,3 +17,19 @@ func _physics_process(delta: float) -> void:
 		velocity.z = move_toward(velocity.z, 0, SPEED)
 
 	move_and_slide()
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("attack"):
+		var target := _find_nearest_creature()
+		if target:
+			Combat.attack(self, target)
+
+func _find_nearest_creature() -> Node:
+	var nearest: Node = null
+	var nearest_dist := ATTACK_RANGE
+	for creature in get_tree().get_nodes_in_group("creatures"):
+		var dist: float = global_position.distance_to(creature.global_position)
+		if dist <= nearest_dist:
+			nearest = creature
+			nearest_dist = dist
+	return nearest
