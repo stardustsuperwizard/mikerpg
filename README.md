@@ -7,6 +7,8 @@ The goals are as follows:
 3. Use as much of the godot editor as possible as the toolset for making stories.
 4. Use components that already exist in the wild, example Inventory systems, and only code new when there is not a sufficient 3rd party addon or it no longer meets my needs.
 5. Make the game as modular as possible and not have to hardcode as much as possible. Example, do I need to hardcode all NPCs or can I make a generic NPC class/object/whatever where the values are populated from a datastore?
+6. Build the RPG layer, not another game engine. Godot should remain responsible for engine concerns such as scenes, nodes, physics, rendering, input, navigation, and networking. MikeRPG should focus on the RPG concepts Godot does not provide, such as actors, character sheets, rules, combat, creatures, quests, encounters, and GM functionality. Prefer Godot's native systems and existing addons where they solve the problem sufficiently; create abstractions primarily to express RPG concepts or to integrate reusable components, not to hide or replace Godot.
+
 
 ## Setup
 
