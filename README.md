@@ -8,6 +8,22 @@ The goals are as follows:
 4. Use components that already exist in the wild, example Inventory systems, and only code new when there is not a sufficient 3rd party addon or it no longer meets my needs.
 5. Make the game as modular as possible and not have to hardcode as much as possible. Example, do I need to hardcode all NPCs or can I make a generic NPC class/object/whatever where the values are populated from a datastore?
 
+## Setup
+
+Requires Godot 4.7+.
+
+`addons/` is gitignored (third-party code, not part of the core game). After cloning, fetch each addon before opening the project in Godot:
+
+**GLoot** (inventory system, v3.0.2, MIT license — https://github.com/peter-kish/gloot):
+```
+git clone --depth 1 https://github.com/peter-kish/gloot.git /tmp/gloot
+cp -R /tmp/gloot/addons/gloot addons/gloot
+cp /tmp/gloot/LICENSE addons/gloot/LICENSE
+rm -rf /tmp/gloot
+```
+
+Nothing else to configure — the plugin is already enabled in `project.godot`, Godot just needs the files present on disk. If the project opens with inventory-related script errors, this step was skipped.
+
 ## Prompt
 ```
 You are an experienced Godot programmer and engineer helping me with learning Godot. I have discussed at length with other ideas and concepts and now want to focus in on something. I want to build a basic single player or multi player role playing game, ultimately based on 5e SRD rules. I want start as simple as possible and 5e rules can be substituted for something simplistic to start with and then be layered in or swapped in over the simple rules. We can start at the beginning tutorial style to build a basic game and add on as we go. The biggest thing is that I also want to add game elements that already exist, for example inventory. If I don’t have to build it, then I don’t want to. Can that be done?
