@@ -1,8 +1,10 @@
-[gd_scene load_steps=12 format=3]
+[gd_scene load_steps=14 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/actors/player.tscn" id="1"]
 [ext_resource type="PackedScene" path="res://scenes/actors/creature.tscn" id="2"]
 [ext_resource type="Resource" path="res://data/creatures/goblin.tres" id="3"]
+[ext_resource type="PackedScene" path="res://scenes/world/item_pickup.tscn" id="4"]
+[ext_resource type="PackedScene" path="res://scenes/ui/inventory_ui.tscn" id="5"]
 
 [sub_resource type="BoxMesh" id="FloorMesh"]
 size = Vector3(20, 0.2, 20)
@@ -88,6 +90,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
 [node name="Goblin" parent="." instance=ExtResource("2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.05, -3)
 data = ExtResource("3")
+
+[node name="RustySword" parent="." instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0.3, -3)
+prototype_id = "rusty_sword"
+
+[node name="InventoryUI" parent="." instance=ExtResource("5")]
 
 [node name="CameraRig" type="Node3D" parent="."]
 

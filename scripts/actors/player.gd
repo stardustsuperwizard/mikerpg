@@ -3,6 +3,9 @@ extends CharacterBody3D
 const SPEED = 5.0
 const ATTACK_RANGE = 2.0
 
+func _ready() -> void:
+	add_to_group("player")
+
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity += get_gravity() * delta
