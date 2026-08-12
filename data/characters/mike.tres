@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="CharacterSheet" load_steps=3 format=3]
 
-[ext_resource type="Script" path="res://scripts/rules/character_sheet.gd" id="1"]
-[ext_resource type="Script" path="res://scripts/rules/ability_scores.gd" id="2"]
+[ext_resource type="Script" path="res://core/rules/lite/character_sheet.gd" id="1"]
+[ext_resource type="Script" path="res://core/rules/lite/ability_scores.gd" id="2"]
 
 [sub_resource type="Resource" id="AbilityScores_mike"]
 script = ExtResource("2")

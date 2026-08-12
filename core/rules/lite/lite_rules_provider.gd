@@ -1,6 +1,7 @@
-extends Node
+class_name LiteRulesProvider
+extends RulesProvider
 
-func attack(attacker: Actor, target: Actor) -> void:
+func resolve_attack(attacker: Actor, target: Actor) -> void:
 	var attacker_sheet := attacker.character_sheet
 	var target_sheet := target.character_sheet
 	var modifier := AbilityScores.modifier(attacker_sheet.ability_scores.strength)

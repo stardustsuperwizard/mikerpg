@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3]
 
-[ext_resource type="Script" path="res://scripts/world/item_pickup.gd" id="1"]
+[ext_resource type="Script" path="res://features/inventory/scripts/item_pickup.gd" id="1"]
 
 [sub_resource type="SphereMesh" id="PickupMesh"]
 radius = 0.3

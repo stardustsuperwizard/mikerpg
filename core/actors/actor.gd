@@ -34,7 +34,7 @@ func _physics_process(delta: float) -> void:
 
 	var target := controller.get_attack_target() if controller else null
 	if target:
-		Combat.attack(self, target)
+		Rules.attack(self, target)
 
 func take_damage(amount: int) -> void:
 	var remaining := character_sheet.current_hp - amount
