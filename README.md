@@ -26,6 +26,10 @@ rm -rf /tmp/gloot
 
 Nothing else to configure — the plugin is already enabled in `project.godot`, Godot just needs the files present on disk. If the project opens with inventory-related script errors, this step was skipped.
 
+## Verification
+
+`tools/verify.sh` smoke-tests the project: rescans all scripts for parse errors, then boots the default scenes headless and checks for runtime errors. It's not a behavior test — it doesn't assert in-game outcomes, just that everything loads and runs. Run it after moving/renaming files or before committing.
+
 ## Prompt
 ```
 You are an experienced Godot programmer and engineer helping me with learning Godot. I have discussed at length with other ideas and concepts and now want to focus in on something. I want to build a basic single player or multi player role playing game, ultimately based on 5e SRD rules. I want start as simple as possible and 5e rules can be substituted for something simplistic to start with and then be layered in or swapped in over the simple rules. We can start at the beginning tutorial style to build a basic game and add on as we go. The biggest thing is that I also want to add game elements that already exist, for example inventory. If I don’t have to build it, then I don’t want to. Can that be done?
