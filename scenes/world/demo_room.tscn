@@ -1,8 +1,8 @@
 [gd_scene load_steps=12 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/actors/player.tscn" id="1"]
-[ext_resource type="PackedScene" path="res://scenes/actors/creature.tscn" id="2"]
-[ext_resource type="Resource" path="res://data/creatures/goblin.tres" id="3"]
+[ext_resource type="PackedScene" path="res://scenes/actors/nonplayer.tscn" id="2"]
+[ext_resource type="Resource" path="res://data/nonplayers/goblin.tres" id="3"]
 
 [sub_resource type="BoxMesh" id="FloorMesh"]
 size = Vector3(20, 0.2, 20)

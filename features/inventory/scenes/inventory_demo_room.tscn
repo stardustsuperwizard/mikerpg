@@ -1,8 +1,8 @@
 [gd_scene load_steps=14 format=3]
 
 [ext_resource type="PackedScene" path="res://features/inventory/scenes/player_with_inventory.tscn" id="1"]
-[ext_resource type="PackedScene" path="res://scenes/actors/creature.tscn" id="2"]
-[ext_resource type="Resource" path="res://data/creatures/goblin.tres" id="3"]
+[ext_resource type="PackedScene" path="res://scenes/actors/nonplayer.tscn" id="2"]
+[ext_resource type="Resource" path="res://data/nonplayers/goblin.tres" id="3"]
 [ext_resource type="PackedScene" path="res://features/inventory/scenes/item_pickup.tscn" id="4"]
 [ext_resource type="PackedScene" path="res://features/inventory/scenes/inventory_ui.tscn" id="5"]
 

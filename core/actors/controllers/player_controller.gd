@@ -23,12 +23,12 @@ func get_attack_target() -> Actor:
 
 	var nearest: Actor = null
 	var nearest_dist := ATTACK_RANGE
-	for node in actor.get_tree().get_nodes_in_group("creatures"):
-		var creature := node as Actor
-		if not creature:
+	for node in actor.get_tree().get_nodes_in_group("nonplayers"):
+		var nonplayer := node as Actor
+		if not nonplayer:
 			continue
-		var dist := actor.global_position.distance_to(creature.global_position)
+		var dist := actor.global_position.distance_to(nonplayer.global_position)
 		if dist <= nearest_dist:
-			nearest = creature
+			nearest = nonplayer
 			nearest_dist = dist
 	return nearest
