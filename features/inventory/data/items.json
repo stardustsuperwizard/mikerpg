@@ -1,9 +1,0 @@
-{
-    "rusty_sword": {
-        "name": "Rusty Sword"
-    },
-    "healing_potion": {
-        "name": "Healing Potion",
-        "max_stack_size": 5
-    }
-}

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Smoke-tests the project: everything parses, and the default scenes boot
+# Smoke-tests the project: everything parses, and the default scene boots
 # without script/runtime errors. Not a behavior test — nothing here asserts
 # in-game outcomes (e.g. that an attack actually deals damage).
 set -euo pipefail
@@ -51,11 +51,8 @@ rm -f .godot/global_script_class_cache.cfg
 run_check "Project rescan (script parse + global classes)" \
 	"$GODOT_BIN" --headless --editor --quit --path .
 
-run_check "demo_room.tscn (core, no features)" \
+run_check "demo_room.tscn" \
 	"$GODOT_BIN" --headless --path . --quit-after 20
-
-run_check "inventory_demo_room.tscn (inventory feature)" \
-	"$GODOT_BIN" --headless --path . res://features/inventory/scenes/inventory_demo_room.tscn --quit-after 20
 
 echo
 if [ "$fail" -ne 0 ]; then

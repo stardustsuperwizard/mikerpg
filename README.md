@@ -14,21 +14,11 @@ The goals are as follows:
 
 Requires Godot 4.7+.
 
-`addons/` is gitignored (third-party code, not part of the core game). After cloning, fetch each addon before opening the project in Godot:
-
-**GLoot** (inventory system, v3.0.2, MIT license — https://github.com/peter-kish/gloot):
-```
-git clone --depth 1 https://github.com/peter-kish/gloot.git /tmp/gloot
-cp -R /tmp/gloot/addons/gloot addons/gloot
-cp /tmp/gloot/LICENSE addons/gloot/LICENSE
-rm -rf /tmp/gloot
-```
-
-Nothing else to configure — the plugin is already enabled in `project.godot`, Godot just needs the files present on disk. If the project opens with inventory-related script errors, this step was skipped.
+`addons/` is gitignored (third-party code, not part of the core game). No addons are currently required — the project opens and runs from a fresh clone with nothing to fetch.
 
 ## Verification
 
-`tools/verify.sh` smoke-tests the project: rescans all scripts for parse errors, then boots the default scenes headless and checks for runtime errors. It's not a behavior test — it doesn't assert in-game outcomes, just that everything loads and runs. Run it after moving/renaming files or before committing.
+`tools/verify.sh` smoke-tests the project: rescans all scripts for parse errors, then boots the default scene headless and checks for runtime errors. It's not a behavior test — it doesn't assert in-game outcomes, just that everything loads and runs. Run it after moving/renaming files or before committing.
 
 ## Prompt
 ```
