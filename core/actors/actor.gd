@@ -5,9 +5,12 @@ const SPEED = 5.0
 
 @export var character_sheet: CharacterSheet
 @export var color: Color = Color.WHITE
+@export var attack_cooldown := 1.0
 
 @onready var controller: Controller = get_node_or_null("Controller")
 @onready var mesh: MeshInstance3D = get_node_or_null("MeshInstance3D")
+
+var _attack_timer := 0.0
 
 func _ready() -> void:
 	character_sheet = character_sheet.duplicate()
@@ -32,9 +35,19 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 
+	if _attack_timer > 0.0:
+		_attack_timer -= delta
+
 	var target := controller.get_attack_target() if controller else null
 	if target:
-		Rules.attack(self, target)
+		try_attack(target)
+
+func try_attack(target: Actor) -> void:
+	if _attack_timer > 0.0:
+		return
+
+	Rules.attack(self, target)
+	_attack_timer = attack_cooldown
 
 func take_damage(amount: int) -> void:
 	var remaining := character_sheet.current_hp - amount
