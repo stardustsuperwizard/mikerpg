@@ -24,3 +24,4 @@ shape = SubResource("CapsuleShape3D_nonplayer")
 
 [node name="Controller" type="Node" parent="."]
 script = ExtResource("2")
+aggro_range = 6.0

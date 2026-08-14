@@ -1,8 +1,11 @@
-[gd_scene load_steps=12 format=3]
+[gd_scene load_steps=17 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/actors/player.tscn" id="1"]
 [ext_resource type="PackedScene" path="res://scenes/actors/nonplayer.tscn" id="2"]
 [ext_resource type="Resource" path="res://data/nonplayers/goblin.tres" id="3"]
+[ext_resource type="Script" path="res://core/world/world_manager.gd" id="4"]
+[ext_resource type="Script" path="res://core/world/spawn_point.gd" id="5"]
+[ext_resource type="Resource" path="res://data/players/mike.tres" id="6"]
 
 [sub_resource type="BoxMesh" id="FloorMesh"]
 size = Vector3(20, 0.2, 20)
@@ -28,7 +31,22 @@ size = Vector3(0.5, 2, 20)
 [sub_resource type="StandardMaterial3D" id="WallMaterial"]
 albedo_color = Color(0.6, 0.55, 0.5, 1)
 
+[sub_resource type="Resource" id="SpawnPoint_mike"]
+script = ExtResource("5")
+actor_scene = ExtResource("1")
+character_sheet = ExtResource("6")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0.05, 2)
+
+[sub_resource type="Resource" id="SpawnPoint_goblin"]
+script = ExtResource("5")
+actor_scene = ExtResource("2")
+character_sheet = ExtResource("3")
+color = Color(0.2, 0.6, 0.2, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.05, -3)
+
 [node name="DemoRoom" type="Node3D"]
+script = ExtResource("4")
+spawn_points = Array[SpawnPoint]([SubResource("SpawnPoint_mike"), SubResource("SpawnPoint_goblin")])
 
 [node name="World" type="Node3D" parent="."]
 
@@ -81,17 +99,6 @@ surface_material_override/0 = SubResource("WallMaterial")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="World/WallWest"]
 shape = SubResource("WallShapeEW")
-
-[node name="Player" parent="." instance=ExtResource("1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0.05, 2)
-
-[node name="Goblin" parent="." instance=ExtResource("2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.05, -3)
-character_sheet = ExtResource("3")
-color = Color(0.2, 0.6, 0.2, 1)
-
-[node name="Controller" parent="Goblin" index="2"]
-aggro_range = 6.0
 
 [node name="CameraRig" type="Node3D" parent="."]
 
