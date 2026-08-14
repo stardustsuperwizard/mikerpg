@@ -17,6 +17,7 @@ config/features=PackedStringArray("4.7", "Forward Plus")
 [autoload]
 
 Rules="*res://core/rules/rules_manager.gd"
+Network="*res://networking/network_bootstrap.gd"
 
 [input]
 
