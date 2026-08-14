@@ -47,7 +47,7 @@ func _on_peer_connected(id: int) -> void:
 	spawn_point.actor_scene = load("res://scenes/actors/player.tscn")
 	spawn_point.character_sheet = load("res://data/players/mike.tres")
 
-	var actor := world_manager.spawn(spawn_point)
+	var actor := world_manager.spawn(spawn_point, id)
 	actor.owner_id = id
 	print("NET: spawned actor for peer %d, owner_id=%d" % [id, actor.owner_id])
 
