@@ -1,20 +1,16 @@
-[gd_resource type="Resource" script_class="CharacterSheet" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="CharacterSheet" format=3 uid="uid://btfpchqdd213b"]
 
-[ext_resource type="Script" path="res://core/rules/lite/character_sheet.gd" id="1"]
-[ext_resource type="Script" path="res://core/rules/lite/ability_scores.gd" id="2"]
+[ext_resource type="Script" uid="uid://bluarniaxqex5" path="res://core/rules/lite/character_sheet.gd" id="1"]
+[ext_resource type="Script" uid="uid://dcb05fl6umab" path="res://core/rules/lite/ability_scores.gd" id="2"]
 
 [sub_resource type="Resource" id="AbilityScores_mike"]
 script = ExtResource("2")
 strength = 16
 dexterity = 12
 constitution = 14
-intelligence = 10
-wisdom = 10
-charisma = 10
 
 [resource]
 script = ExtResource("1")
 character_name = "Mike"
 ability_scores = SubResource("AbilityScores_mike")
 max_hp = 12
-armor_class = 10
