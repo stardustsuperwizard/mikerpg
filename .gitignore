@@ -16,3 +16,4 @@ mono_crash.*.json
 
 # Ignoring addons for the moment, as they are not part of the core project and can be re-downloaded if needed
 addons/
+assets/
