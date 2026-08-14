@@ -4,6 +4,7 @@ extends Node3D
 @export var spawn_points: Array[SpawnPoint] = []
 
 func _ready() -> void:
+	add_to_group("world_manager")
 	for spawn_point in spawn_points:
 		spawn(spawn_point)
 
