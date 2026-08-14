@@ -25,7 +25,7 @@ func get_attack_target() -> Actor:
 	var nearest_dist := ATTACK_RANGE
 	for node in actor.get_tree().get_nodes_in_group("nonplayers"):
 		var nonplayer := node as Actor
-		if not nonplayer:
+		if not nonplayer or not nonplayer.hostile:
 			continue
 		var dist := actor.global_position.distance_to(nonplayer.global_position)
 		if dist <= nearest_dist:
