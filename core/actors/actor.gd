@@ -51,7 +51,7 @@ func try_attack(target: Actor) -> void:
 	if _attack_timer > 0.0:
 		return
 
-	AttackAction.new(self, target).execute()
+	ActionRunner.run(AttackAction.new(self, target))
 	_attack_timer = attack_cooldown
 
 func take_damage(amount: int) -> void:
