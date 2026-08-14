@@ -7,6 +7,12 @@ const SPEED = 5.0
 @export var color: Color = Color.WHITE
 @export var attack_cooldown := 1.0
 
+# Whether player input may target this actor for attack. Defaults to true so
+# existing hostile content (the Goblin) needs no data change; a friendly
+# NPC sets this false. Deliberately just a flag, not a faction/relationship
+# system -- nothing today needs more than "attackable or not."
+@export var hostile: bool = true
+
 # 0 means unowned/AI-controlled; a connected LAN client's peer id otherwise.
 # Checked by Authority.can_perform() before an Action is honored.
 var owner_id: int = 0
@@ -20,10 +26,19 @@ func _ready() -> void:
 	character_sheet = character_sheet.duplicate()
 	character_sheet.current_hp = character_sheet.max_hp
 
-	if mesh:
+	if mesh and not _has_own_material(mesh):
 		var material := StandardMaterial3D.new()
 		material.albedo_color = color
 		mesh.material_override = material
+
+# Placeholder actors (bare primitive meshes, no material of their own) rely
+# on `color` for visibility. A real imported model already brings its own
+# materials/textures and shouldn't have them stomped by a flat color.
+func _has_own_material(mesh_instance: MeshInstance3D) -> bool:
+	if mesh_instance.get_surface_override_material(0):
+		return true
+	var mesh_resource := mesh_instance.mesh
+	return mesh_resource and mesh_resource.get_surface_count() > 0 and mesh_resource.surface_get_material(0) != null
 
 func _physics_process(delta: float) -> void:
 	# Ticks on every peer's own copy regardless of movement authority: the
