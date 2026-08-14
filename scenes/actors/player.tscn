@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://core/actors/actor.gd" id="1"]
 [ext_resource type="Resource" path="res://data/players/mike.tres" id="2"]
-[ext_resource type="Script" path="res://core/actors/controllers/player_controller.gd" id="3"]
+[ext_resource type="Script" path="res://core/controllers/player_controller.gd" id="3"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_player"]
 radius = 0.4
