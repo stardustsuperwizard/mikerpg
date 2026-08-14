@@ -745,3 +745,18 @@ Controller / network request
 ```
 
 I think that is the final form of the idea we were circling earlier.
+
+## Implementation Plan
+
+The design above is settled, but implementation is **deferred**, not scheduled.
+
+`core/authority/authority.gd` today is exactly the "tiny first implementation" this session converged on: a static `can_perform(action, requester_id)` checking `actor.owner_id == requester_id`, no `AuthorityContext`/`AuthorizationContext`, no provider, no roles, no GM path. That's already correct for the only two principals that exist in the repo right now (an actor's owning peer, and unowned/AI). There's no second role yet to design the provider/policy split against — matches the same deferral already on record for `PlayerController`'s targeting-legality coupling and `GMController`, in `docs/20260814T155946Z - Core Completion, LAN Networking, and Packaging Discussion.md` and `docs/20260814T163520Z - Pre-Content Fixes - Material Override and Attack Targeting.md`.
+
+Concretely deferred until a real second case (most likely a GM role) exists to build against:
+
+- Renaming `Authority` → `Authorization` (and `can_perform` → `authorize`).
+- Introducing `AuthorizationContext` (principal id + roles) as a distinct object from the raw `requester_id` int.
+- Introducing `AuthorizationProvider`/`AuthorizationResult` (with a reason) and moving the check behind a provider seam, mirroring `RulesProvider`/`RulesManager`.
+- Any GM-as-Action work (`SpawnActorAction`, `PossessActorAction`, etc.) that would actually motivate the roles/policy split.
+
+Trigger to revisit: the first time a second principal *role* (not just a second peer) needs to be authorized differently — e.g., a GM client, an assistant GM, or a moderator. Until then, expanding `Authority` would be designing against a hypothetical, which this project has consistently avoided elsewhere (see the `hostile: bool` vs. faction-system call in the Pre-Content Fixes doc).
