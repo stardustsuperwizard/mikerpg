@@ -7,6 +7,11 @@ const SPEED = 5.0
 @export var color: Color = Color.WHITE
 @export var attack_cooldown := 1.0
 
+# Unused until networking exists. Placeholder for the future Authority seam:
+# 0 means unowned/AI-controlled; a connected LAN client will set this to its
+# peer id so a dedicated server can check ownership before honoring Actions.
+var owner_id: int = 0
+
 @onready var controller: Controller = get_node_or_null("Controller")
 @onready var mesh: MeshInstance3D = get_node_or_null("MeshInstance3D")
 
@@ -46,7 +51,7 @@ func try_attack(target: Actor) -> void:
 	if _attack_timer > 0.0:
 		return
 
-	Rules.attack(self, target)
+	AttackAction.new(self, target).execute()
 	_attack_timer = attack_cooldown
 
 func take_damage(amount: int) -> void:
