@@ -1,9 +1,8 @@
 class_name Actor
-extends CharacterBody3D
-
-const SPEED = 5.0
+extends Node
 
 @export var character_sheet: CharacterSheet
+@export var object_definition: ObjectDefinition
 @export var color: Color = Color.WHITE
 @export var attack_cooldown := 1.0
 
@@ -17,28 +16,39 @@ const SPEED = 5.0
 # Checked by Authority.can_perform() before an Action is honored.
 var owner_id: int = 0
 
+# Traits/capabilities classification for this actor (see
+# core/objects/game_object.gd). Not yet consulted by ActionRunner -- see
+# Action.required_capability().
+var game_object: GameObject
+
 @onready var controller: Controller = get_node_or_null("Controller")
-@onready var mesh: MeshInstance3D = get_node_or_null("MeshInstance3D")
 
 var _attack_timer := 0.0
 
 func _ready() -> void:
 	character_sheet = character_sheet.duplicate()
 	character_sheet.current_hp = character_sheet.max_hp
+	game_object = GameObject.new(StringName(name), object_definition)
 
-	if mesh and not _has_own_material(mesh):
-		var material := StandardMaterial3D.new()
-		material.albedo_color = color
-		mesh.material_override = material
-
-# Placeholder actors (bare primitive meshes, no material of their own) rely
-# on `color` for visibility. A real imported model already brings its own
-# materials/textures and shouldn't have them stomped by a flat color.
-func _has_own_material(mesh_instance: MeshInstance3D) -> bool:
-	if mesh_instance.get_surface_override_material(0):
-		return true
-	var mesh_resource := mesh_instance.mesh
-	return mesh_resource and mesh_resource.get_surface_count() > 0 and mesh_resource.surface_get_material(0) != null
+# Bridges whichever presentation body this Actor has (see
+# core/actors/actor_body_3d.gd / actor_body_2d.gd) into a single
+# presentation-neutral position, so Controller/PlayerController/AIController
+# never need to know or care whether they're driving a 3D or a 2D actor.
+# 2D's XY plane maps onto 3D's XZ ground plane (Y stays up).
+#
+# Deliberately not cached via @onready: Godot readies children before their
+# parent, and AIController._ready() (a child of this Actor) reads
+# global_position to set its home position -- that would run before this
+# Actor's own @onready vars were assigned.
+var global_position: Vector3:
+	get:
+		var body := get_node_or_null("Body")
+		if body is CharacterBody3D:
+			return (body as CharacterBody3D).global_position
+		if body is CharacterBody2D:
+			var position_2d := (body as CharacterBody2D).global_position
+			return Vector3(position_2d.x, 0, position_2d.y)
+		return Vector3.ZERO
 
 func _physics_process(delta: float) -> void:
 	# Ticks on every peer's own copy regardless of movement authority: the
@@ -48,28 +58,8 @@ func _physics_process(delta: float) -> void:
 	if _attack_timer > 0.0:
 		_attack_timer -= delta
 
-	if not is_multiplayer_authority():
-		return
-
-	if not is_on_floor():
-		velocity += get_gravity() * delta
-
-	var move_direction := controller.get_move_direction() if controller else Vector3.ZERO
-	if move_direction:
-		velocity.x = move_direction.x * SPEED
-		velocity.z = move_direction.z * SPEED
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-		velocity.z = move_toward(velocity.z, 0, SPEED)
-
-	move_and_slide()
-
-	var target := controller.get_attack_target() if controller else null
-	if target:
-		try_attack(target)
-
 # Only the actor's own controlling peer ever calls this (gated upstream by
-# the authority check above), so it's just "should I ask the server to
+# the body's authority check), so it's just "should I ask the server to
 # attack" -- the server is the only one that ever actually resolves it.
 func try_attack(target: Actor) -> void:
 	if multiplayer.has_multiplayer_peer() and not multiplayer.is_server():
@@ -94,6 +84,30 @@ func _resolve_attack(target: Actor, requester_id: int) -> void:
 
 	_attack_timer = attack_cooldown
 	ActionRunner.run(AttackAction.new(self, target), requester_id)
+
+# Same request/resolve split as attack, minus the cooldown -- opening a door
+# has no rate limit to enforce.
+func try_interact(target: Node) -> void:
+	if multiplayer.has_multiplayer_peer() and not multiplayer.is_server():
+		request_interact.rpc_id(1, target.get_path())
+		return
+
+	_resolve_interact(target, multiplayer.get_unique_id())
+
+@rpc("authority", "call_remote", "reliable")
+func request_interact(target_path: NodePath) -> void:
+	var target := get_node(target_path)
+	if target:
+		_resolve_interact(target, multiplayer.get_remote_sender_id())
+
+# Interact currently only ever resolves to opening a door -- Controller
+# returns a plain Node so future interactables (a chest, a lever) don't
+# require a Controller-level API change, but OpenAction is the only
+# interact Action implemented so far.
+func _resolve_interact(target: Node, requester_id: int) -> void:
+	var door := target as Door
+	if door:
+		ActionRunner.run(OpenAction.new(self, door), requester_id)
 
 func take_damage(amount: int) -> void:
 	var remaining := character_sheet.current_hp - amount

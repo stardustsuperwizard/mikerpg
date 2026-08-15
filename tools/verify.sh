@@ -57,6 +57,12 @@ run_check "Main scene boot (main menu)" \
 run_check "demo_room.tscn (game scene, booted directly)" \
 	"$GODOT_BIN" --headless --path . res://scenes/world/demo_room.tscn --quit-after 10
 
+run_check "tavern/demo_room.tscn (AppConfig's game_scene_path, booted directly)" \
+	"$GODOT_BIN" --headless --path . res://misadventures/scenes/tavern/world/demo_room.tscn --quit-after 10
+
+run_check "demo_room_2d.tscn (2D presentation proof, booted directly)" \
+	"$GODOT_BIN" --headless --path . res://scenes/world/demo_room_2d.tscn --quit-after 10
+
 echo
 if [ "$fail" -ne 0 ]; then
 	echo "FAILED"

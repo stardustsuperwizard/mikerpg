@@ -1,10 +1,10 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene format=3]
 
-[ext_resource type="Script" path="res://core/actors/actor.gd" id="1"]
-[ext_resource type="Resource" path="res://data/players/mike.tres" id="2"]
-[ext_resource type="Script" path="res://core/controllers/player_controller.gd" id="3"]
+[ext_resource type="Script" uid="uid://dthxjcanm6ri2" path="res://core/actors/actor.gd" id="1"]
+[ext_resource type="Resource" uid="uid://btfpchqdd213b" path="res://data/players/mike.tres" id="2"]
+[ext_resource type="Script" uid="uid://dwjvl83fc87jc" path="res://core/controllers/player_controller.gd" id="3"]
 [ext_resource type="Resource" path="res://data/things/player.tres" id="4"]
-[ext_resource type="Script" path="res://core/actors/bodies/actor_body_3d.gd" id="5"]
+[ext_resource type="Script" uid="uid://k3dq45bpnqv6" path="res://core/actors/bodies/actor_body_3d.gd" id="5"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_player"]
 radius = 0.4
