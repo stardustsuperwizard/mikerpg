@@ -1,10 +1,10 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene format=3]
 
-[ext_resource type="Script" path="res://core/actors/actor.gd" id="1"]
-[ext_resource type="Script" path="res://core/controllers/ai_controller.gd" id="2"]
-[ext_resource type="Resource" path="res://data/nonplayers/goblin.tres" id="3"]
+[ext_resource type="Script" uid="uid://dthxjcanm6ri2" path="res://core/actors/actor.gd" id="1"]
+[ext_resource type="Script" uid="uid://bp3h7vffooy8t" path="res://core/controllers/ai_controller.gd" id="2"]
+[ext_resource type="Resource" uid="uid://p2v41e1wlpxy" path="res://data/nonplayers/goblin.tres" id="3"]
 [ext_resource type="Resource" path="res://data/things/goblin.tres" id="4"]
-[ext_resource type="Script" path="res://core/actors/bodies/actor_body_3d.gd" id="5"]
+[ext_resource type="Script" uid="uid://k3dq45bpnqv6" path="res://core/actors/bodies/actor_body_3d.gd" id="5"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_nonplayer"]
 radius = 0.4

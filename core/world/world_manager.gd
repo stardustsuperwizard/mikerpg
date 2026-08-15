@@ -43,6 +43,6 @@ func _spawn_actor(data: Dictionary) -> Actor:
 	var actor := (load(data["scene_path"]) as PackedScene).instantiate() as Actor
 	actor.character_sheet = load(data["character_sheet_path"]) as CharacterSheet
 	actor.color = data["color"]
-	actor.transform = data["transform"]
+	(actor.get_node("Body") as Node3D).transform = data["transform"]
 	actor.set_multiplayer_authority(data["authority_id"])
 	return actor

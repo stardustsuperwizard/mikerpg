@@ -8,3 +8,6 @@ func get_move_direction() -> Vector3:
 
 func get_attack_target() -> Actor:
 	return null
+
+func get_interact_target() -> Node:
+	return null

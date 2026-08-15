@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ObjectDefinition" format=3]
+
+[ext_resource type="Script" path="res://core/things/object_definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"goblin"
+display_name = "Goblin"
+traits = Array[StringName]([&"creature", &"humanoid"])
+capabilities = Array[StringName]([&"move", &"attack", &"interact"])

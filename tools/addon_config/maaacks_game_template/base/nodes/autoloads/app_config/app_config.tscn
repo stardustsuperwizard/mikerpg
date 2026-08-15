@@ -5,5 +5,5 @@
 [node name="AppConfig" type="Node" unique_id=1177605314]
 script = ExtResource("1_o0k5w")
 main_menu_scene_path = "res://misadventures/scenes/menus/main_menu/main_menu.tscn"
-game_scene_path = "res://scenes/world/demo_room.tscn"
+game_scene_path = "res://misadventures/scenes/tavern/world/demo_room.tscn"
 ending_scene_path = ""

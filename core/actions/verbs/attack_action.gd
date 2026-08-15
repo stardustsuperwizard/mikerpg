@@ -7,6 +7,8 @@ func _init(p_actor: Actor, p_target: Actor) -> void:
 	super._init(p_actor)
 	target = p_target
 
+func required_capability() -> StringName:
+	return &"attack"
+
 func execute() -> ActionResult:
-	Rules.attack(actor, target)
-	return ActionResult.new()
+	return Rules.attack(actor, target)
