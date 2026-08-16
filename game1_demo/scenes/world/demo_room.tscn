@@ -1,15 +1,13 @@
 [gd_scene format=3 uid="uid://1lgbwaee6dxl"]
 
-[ext_resource type="PackedScene" path="res://scenes/actors/player.tscn" id="1"]
-[ext_resource type="PackedScene" path="res://scenes/actors/nonplayer.tscn" id="2"]
-[ext_resource type="Resource" uid="uid://p2v41e1wlpxy" path="res://data/nonplayers/goblin.tres" id="3"]
-[ext_resource type="Script" uid="uid://cjdpbv8uumhmx" path="res://core/world/world_manager.gd" id="4"]
-[ext_resource type="Script" uid="uid://snsjljqxfyjg" path="res://core/world/spawn_point.gd" id="5"]
-[ext_resource type="Resource" uid="uid://btfpchqdd213b" path="res://data/players/mike.tres" id="6"]
-[ext_resource type="Script" uid="uid://cyh0d64pfygbl" path="res://addons/maaacks_game_template/base/nodes/utilities/pause_menu_controller.gd" id="7"]
-[ext_resource type="PackedScene" path="res://misadventures/scenes/windows/pause_menu_layer.tscn" id="8"]
-[ext_resource type="PackedScene" path="res://scenes/world/door.tscn" id="9"]
-[ext_resource type="PackedScene" path="res://scenes/ui/interaction_prompt.tscn" id="10"]
+[ext_resource type="PackedScene" path="res://game1_demo/scenes/actors/player.tscn" id="1"]
+[ext_resource type="PackedScene" path="res://game1_demo/scenes/actors/nonplayer.tscn" id="2"]
+[ext_resource type="Resource" uid="uid://p2v41e1wlpxy" path="res://game1_demo/data/nonplayers/goblin.tres" id="3"]
+[ext_resource type="Script" uid="uid://cjdpbv8uumhmx" path="res://addons/mikeys_game_bones/world/world_manager.gd" id="4"]
+[ext_resource type="Script" uid="uid://snsjljqxfyjg" path="res://addons/mikeys_game_bones/world/spawn_point.gd" id="5"]
+[ext_resource type="Resource" uid="uid://btfpchqdd213b" path="res://game1_demo/data/players/mike.tres" id="6"]
+[ext_resource type="PackedScene" path="res://game1_demo/scenes/world/door.tscn" id="9"]
+[ext_resource type="PackedScene" path="res://game1_demo/scenes/ui/interaction_prompt.tscn" id="10"]
 
 [sub_resource type="Resource" id="SpawnPoint_mike"]
 script = ExtResource("5")
@@ -119,9 +117,5 @@ current = true
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=883019049]
 transform = Transform3D(0.780102, -0.19697, 0.594823, 0, 0.947728, 0.31909, -0.625608, -0.248894, 0.739255, 0, 5, 0)
 shadow_enabled = true
-
-[node name="PauseMenuController" type="Node" parent="." unique_id=1077857911]
-script = ExtResource("7")
-pause_menu_packed = ExtResource("8")
 
 [node name="InteractionPrompt" parent="." instance=ExtResource("10")]
