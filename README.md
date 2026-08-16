@@ -1,49 +1,70 @@
-# Mike's Game Bones
+# Mikey's Game Bones
 
-A reusable, genre-agnostic gameplay framework for Godot 4 — the semantic layer between Godot's engine primitives (nodes, physics, rendering) and a specific game's rules and presentation.
- 
+A reusable RPG gameplay framework for Godot 4, plus a small bundled demo proving it works. Not a game — a starting point for one, in the same spirit as [Maaack's Godot Minimal Game Template](https://github.com/Maaack/Godot-Minimal-Game-Template): a repo you clone (or pull individual addons out of) to start building, not something you play.
 
-## What's in it
+## What this repo actually is
+
+Three things living together on purpose:
+
+- **`addons/mikeys_game_bones/`** — the framework itself. Genre-agnostic gameplay semantics: what a game object is, what an action is, how rules resolve it, who's allowed to ask.
+- **`addons/mikeys_basic_ai/`, `addons/mikeys_basic_networking/`** — reference/default implementations of the extension points the framework defines (a dumb chase-and-attack AI, a bare ENet transport). Meant to be swapped, not kept.
+- **`game1_demo/`** — the framework's own minimal bundled example: a tiny lite-d20 rules engine, a player, a goblin, a door, in both 3D and 2D. Proof the pieces fit together, not a real game.
+
+A real game built from this — with real content, real art, its own rules engine, its own release lifecycle — belongs in its *own* repo, consuming these addons rather than living inside them. `misadventures_rpg` is that repo.
+
+## Goals
+
+1. Provide the semantic layer between Godot's engine primitives and RPG concepts — actors, actions, rules, combat, AI, GM tooling — that Godot deliberately doesn't provide itself.
+2. Make every genre-specific decision swappable, not hardcoded: which rules engine, which AI, which networking transport, whether there's a GM at all. A game built on Bones should be able to replace any one of these without touching Bones.
+3. Support single-player first, multiplayer as a natural extension rather than a redesign. `Actor`/`Action`/`Rules` never need to know whether they're running locally or across a network.
+4. Prefer existing Godot systems and community addons over writing new ones. Only build when nothing sufficient exists, or when the RPG semantic layer genuinely needs expressing.
+5. Make new game *content* addable as data — new NPCs, items, props — without touching scripts. New game *behavior* is the one thing that should require code.
+6. Use the Godot editor itself as the primary tool for building stories, not a bespoke content pipeline.
+
+## Axioms
+
+The load-bearing rules this project has actually held to, not aspirations:
+
+- **Game objects represent what exists. Actions represent what is attempted. Rules determine what happens. Godot represents the result.** The full reasoning is in [`docs/20260815T130000Z - Game Objects and Rules.md`](docs/20260815T130000Z%20-%20Game%20Objects%20and%20Rules.md).
+- **Bones defines contracts, not features.** `Controller`, `Action`, `Rules`, `Authority` are minimal interfaces. Bones ships at most one clearly-labeled reference/default implementation per contract (`SimpleAIController`, the ENet transport, `LiteRulesProvider` in `game1_demo`) — never the "real," opinionated version of anything genre-specific. A serious AI, a better rules engine, a GM toolkit: all separate addons implementing the same contract.
+- **Presentation is separate from gameplay semantics.** `Actor` is a plain `Node`, not a `CharacterBody3D` — it owns a swappable presentation body (`ActorBody3D`/`ActorBody2D`). Nothing above that line cares which one it has.
+- **Don't build an abstraction until a second real case needs it.** Every interface in this framework exists because something concrete demanded it, not because it might someday. When in doubt, keep the concrete case simple and obvious rather than generalize early.
+- **New content should be data. New behavior should require code.** If adding a goblin variant means writing a script, something's wrong.
+- **Godot owns engine mechanism; Bones owns RPG mechanism.** Nodes, physics, rendering, navigation, input, networking transport — Godot's job, not reimplemented here. Actors, traits, actions, rules, authority, quests — the layer Godot doesn't have an opinion about.
+
+## Layout
 
 ```
-actions/         Action, ActionResult, ActionRunner (the request -> legality -> resolve pipeline)
-  verbs/          concrete actions: AttackAction, OpenAction
-actors/          Actor (a presentation-neutral Node)
-  bodies/          presentation shells: ActorBody3D, ActorBody2D
-authority/       Authority (can this requester act as this actor?)
-controllers/     Controller, PlayerController, AIController (decision-making, not execution)
-things/          GameObject, ObjectDefinition (traits/capabilities/state -- the "noun" layer)
-  props/           concrete non-actor things: Door
-world/           WorldManager, SpawnPoint
+addons/
+├── mikeys_game_bones/        GameObject, ObjectDefinition, Actor, Controller,
+│                             Action/ActionRunner/Rules/Authority, WorldManager
+├── mikeys_basic_ai/          SimpleAIController -- reference AI, swap it out
+├── mikeys_basic_networking/  ENet transport only -- reference networking, swap it out
+└── mikeys_gm_module/         (empty) future GM tooling; Controller/Authority/Action
+                              already support it without any Bones changes
+
+game1_demo/                  the framework's own bundled reference demo
+├── rules/                    a tiny lite-d20 engine (RulesProvider/RulesManager)
+├── data/                     example content: a player, a goblin, a door
+├── scenes/                   the demo room, 3D and 2D presentations
+├── runtime/                  this demo's own boot sequence
+└── ui/                       this demo's own interaction prompt
+
+docs/                        the design conversations behind this architecture --
+                              read chronologically, they're the actual decision log
+tools/verify.sh              headless smoke test
 ```
 
-## What it deliberately does not include
-
-Combat resolution, ability scores, dice, character sheets, dialogue, inventory, or any UI. Those are game-specific — see `mikerpg`'s `game1_demo/` or `game2_misadventures/` for examples of a game built on top of this addon, each bringing its own rules engine.
-
-## Design philosophy
-
-`GameObject`s represent what exists. `Action`s represent what is attempted. `Rules` (defined by the consuming game, not this addon) determine what happens. Godot represents the result. See `docs/20260815T130000 - Game Objects and Rules.md` in the main `mikerpg` repo for the full design rationale.
-
-### Controller is the extension point, not a feature list
-
-`Controller` is intentionally almost empty: `get_move_direction()`, `get_attack_target()`, `get_interact_target()`, each defaulting to null/zero. That's the whole contract. Bones ships one concrete controller, `PlayerController` (human input), because "how does a human control an actor" is genuinely core. It does **not** ship AI, GM tooling, or any other decision-making logic — those are separate addons (`addons/mikeys_basic_ai/`, and eventually a GM addon) that implement the exact same `Controller` contract. Swapping in a real behavior-tree AI, a GM possession system, or a replay/scripted controller never requires touching Bones — write a `Controller` subclass, point an actor's `Controller` node at it, done. The same principle applies to networking: Bones (and `mikeys_basic_networking`) never assumes a specific transport is best; it only needs whatever's installed to fire Godot's native `multiplayer.peer_connected`/`peer_disconnected` signals.
-
-The goals are as follows:
-1. Build a single player game to start
-2. Add a multiplayer option with an admin (or Dm/GM) client, like Neverwinter Nights.
-3. Use as much of the godot editor as possible as the toolset for making stories.
-4. Use components that already exist in the wild, example Inventory systems, and only code new when there is not a sufficient 3rd party addon or it no longer meets my needs.
-5. Make the game as modular as possible and not have to hardcode as much as possible. Example, do I need to hardcode all NPCs or can I make a generic NPC class/object/whatever where the values are populated from a datastore?
-6. Build the RPG layer, not another game engine. Godot should remain responsible for engine concerns such as scenes, nodes, physics, rendering, input, navigation, and networking. MikeRPG should focus on the RPG concepts Godot does not provide, such as actors, character sheets, rules, combat, creatures, quests, encounters, and GM functionality. Prefer Godot's native systems and existing addons where they solve the problem sufficiently; create abstractions primarily to express RPG concepts or to integrate reusable components, not to hide or replace Godot.
-
+`addons/` is gitignored except our own `mikeys_*` addons — third-party addons are re-downloadable and not tracked; ours aren't third-party.
 
 ## Setup
 
-Requires Godot 4.7+.
-
-`addons/` is gitignored (third-party code, not part of the core game). No addons are currently required — the project opens and runs from a fresh clone with nothing to fetch.
+Requires Godot 4.7+. Clone and open in Godot — `project.godot` boots straight into `game1_demo`'s demo room. No main menu; nothing installs one here.
 
 ## Verification
 
-`tools/verify.sh` smoke-tests the project: rescans all scripts for parse errors, then boots the default scene headless and checks for runtime errors. It's not a behavior test — it doesn't assert in-game outcomes, just that everything loads and runs. Run it after moving/renaming files or before committing.
+`tools/verify.sh` smoke-tests the project: rescans all scripts for parse errors, then boots the project and `game1_demo/scenes/world/demo_room_2d.tscn` headless and checks for runtime errors. Not a behavior test — it doesn't assert in-game outcomes, just that everything loads and runs. Run it after moving or renaming files, or before committing.
+
+## Starting a real game from this
+
+Clone the repo, keep `addons/`, replace `game1_demo/` with your own content (or delete it once you've got your own scenes standing up). If you only want the framework, copying `addons/mikeys_game_bones/` — and whichever of the reference addons you actually want — into an existing project's `addons/` works too; nothing in it assumes it owns your project's main scene, autoloads, or boot sequence.
