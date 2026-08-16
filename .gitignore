@@ -1,4 +1,7 @@
+.claude/
+
 .DS_Store
+
 
 # Godot 4+ specific ignores
 .godot/
@@ -17,6 +20,5 @@ mono_crash.*.json
 # Third-party addons are ignored (not part of the core project, re-downloadable).
 # Our own addons are not third-party -- tracked despite living under addons/.
 addons/*
-!addons/mikes_game_bones/
-!addons/mikes_basic_networking/
+!addons/mikeys_*
 assets/
