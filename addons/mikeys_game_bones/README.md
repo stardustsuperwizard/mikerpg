@@ -1,4 +1,4 @@
-# Mike's Game Bones
+# Mikey's Game Bones
 
 A reusable, genre-agnostic gameplay framework for Godot 4 — the semantic layer between Godot's engine primitives (nodes, physics, rendering) and a specific game's rules and presentation.
  
@@ -11,7 +11,9 @@ actions/         Action, ActionResult, ActionRunner (the request -> legality -> 
 actors/          Actor (a presentation-neutral Node)
   bodies/          presentation shells: ActorBody3D, ActorBody2D
 authority/       Authority (can this requester act as this actor?)
-controllers/     Controller, PlayerController, AIController (decision-making, not execution)
+controllers/     Controller, PlayerController (decision-making, not execution --
+                   AI decision-making is deliberately not here, see
+                   addons/mikeys_basic_ai/)
 things/          GameObject, ObjectDefinition (traits/capabilities/state -- the "noun" layer)
   props/           concrete non-actor things: Door
 world/           WorldManager, SpawnPoint
@@ -24,10 +26,6 @@ Combat resolution, ability scores, dice, character sheets, dialogue, inventory, 
 ## Design philosophy
 
 `GameObject`s represent what exists. `Action`s represent what is attempted. `Rules` (defined by the consuming game, not this addon) determine what happens. Godot represents the result. See `docs/20260815T130000 - Game Objects and Rules.md` in the main `mikerpg` repo for the full design rationale.
-
-### Controller is the extension point, not a feature list
-
-`Controller` is intentionally almost empty: `get_move_direction()`, `get_attack_target()`, `get_interact_target()`, each defaulting to null/zero. That's the whole contract. Bones ships one concrete controller, `PlayerController` (human input), because "how does a human control an actor" is genuinely core. It does **not** ship AI, GM tooling, or any other decision-making logic — those are separate addons (`addons/mikeys_basic_ai/`, and eventually a GM addon) that implement the exact same `Controller` contract. Swapping in a real behavior-tree AI, a GM possession system, or a replay/scripted controller never requires touching Bones — write a `Controller` subclass, point an actor's `Controller` node at it, done. The same principle applies to networking: Bones (and `mikeys_basic_networking`) never assumes a specific transport is best; it only needs whatever's installed to fire Godot's native `multiplayer.peer_connected`/`peer_disconnected` signals.
 
 The goals are as follows:
 1. Build a single player game to start

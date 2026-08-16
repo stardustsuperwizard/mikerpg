@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CharacterSheet" format=3 uid="uid://p2v41e1wlpxy"]
+
+[ext_resource type="Script" uid="uid://bluarniaxqex5" path="res://game1_demo/rules/lite/character_sheet.gd" id="1"]
+[ext_resource type="Script" uid="uid://dcb05fl6umab" path="res://game1_demo/rules/lite/ability_scores.gd" id="2"]
+
+[sub_resource type="Resource" id="AbilityScores_goblin"]
+script = ExtResource("2")
+strength = 8
+dexterity = 14
+wisdom = 8
+charisma = 8
+
+[resource]
+script = ExtResource("1")
+character_name = "Goblin"
+ability_scores = SubResource("AbilityScores_goblin")
+max_hp = 7
+armor_class = 15

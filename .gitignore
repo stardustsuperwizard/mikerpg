@@ -1,4 +1,7 @@
+.claude/
+
 .DS_Store
+
 
 # Godot 4+ specific ignores
 .godot/
@@ -14,6 +17,8 @@ export_presets.cfg
 data_*/
 mono_crash.*.json
 
-# Ignoring addons for the moment, as they are not part of the core project and can be re-downloaded if needed
-addons/
+# Third-party addons are ignored (not part of the core project, re-downloadable).
+# Our own addons are not third-party -- tracked despite living under addons/.
+addons/*
+!addons/mikeys_*
 assets/
