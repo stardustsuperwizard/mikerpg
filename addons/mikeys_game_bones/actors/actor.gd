@@ -17,7 +17,7 @@ extends Node
 var owner_id: int = 0
 
 # Traits/capabilities classification for this actor (see
-# core/objects/game_object.gd). Not yet consulted by ActionRunner -- see
+# things/game_object.gd). Not yet consulted by ActionRunner -- see
 # Action.required_capability().
 var game_object: GameObject
 
@@ -31,7 +31,7 @@ func _ready() -> void:
 	game_object = GameObject.new(StringName(name), object_definition)
 
 # Bridges whichever presentation body this Actor has (see
-# core/actors/actor_body_3d.gd / actor_body_2d.gd) into a single
+# actors/bodies/actor_body_3d.gd / actor_body_2d.gd) into a single
 # presentation-neutral position, so Controller/PlayerController/SimpleAIController
 # never need to know or care whether they're driving a 3D or a 2D actor.
 # 2D's XY plane maps onto 3D's XZ ground plane (Y stays up).
